@@ -77,7 +77,6 @@ public class PostServiceImpl implements PostService {
     }
 
     private PostDto mapToPostDto(Post post) {
-        System.out.println(post);
         PostDto postDto = new PostDto();
         modelMapper.map(post,postDto);
         return postDto;
