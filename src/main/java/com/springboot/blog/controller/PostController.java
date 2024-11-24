@@ -83,7 +83,7 @@ public class PostController {
             responseCode = "200",
             description = "Http Status 200 OK"
     )
-    @GetMapping("/api/v1/posts/{id}")
+    @GetMapping(value = "/api/posts/{id}",params = "version=1")
     public ResponseEntity<PostDto> getPostById(@PathVariable("id") long id) {
         return ResponseEntity.ok(postService.getPostById(id));
     }
