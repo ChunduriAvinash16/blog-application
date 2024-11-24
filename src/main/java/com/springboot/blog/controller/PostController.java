@@ -83,7 +83,9 @@ public class PostController {
             responseCode = "200",
             description = "Http Status 200 OK"
     )
-    @GetMapping(value = "/api/posts/{id}", headers = "X-API-VERSION=1")
+    //@GetMapping(value = "/api/posts/{id}", headers = "X-API-VERSION=1")
+    @GetMapping(value = "/api/posts/{id}", produces = "application/vnd.blog.v1+json")
+    //Accept : application/vnd.blog.v1+json
     public ResponseEntity<PostDto> getPostById(@PathVariable("id") long id) {
         return ResponseEntity.ok(postService.getPostById(id));
     }
