@@ -7,6 +7,7 @@ import com.springboot.blog.model.Category;
 import com.springboot.blog.repository.CatergoryRepository;
 import com.springboot.blog.service.CategoryService;
 import org.modelmapper.ModelMapper;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,5 +41,23 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> categoryList = catergoryRepository.findAll();
         return categoryList.stream()
                 .map(category -> modelMapper.map(category, CategoryDto.class)).toList();
+    }
+
+    @Override
+    public CategoryDto updateCategory(CategoryDto categoryDto, Long categoryId) {
+        Category category = catergoryRepository.findById(categoryId).orElseThrow(() ->
+                new ResourceNotFoundException("Category","Id",categoryId));
+        category.setName(categoryDto.getName());
+        category.setDescription(categoryDto.getDescription());
+        catergoryRepository.save(category);
+        return modelMapper.map(category,CategoryDto.class);
+    }
+
+    @Override
+    public String deleteCategoryById(Long categoryId) {
+        Category category = catergoryRepository.findById(categoryId).orElseThrow(() ->
+                new ResourceNotFoundException("Category","Id",categoryId));
+        catergoryRepository.delete(category);
+        return "Deleted Successfully";
     }
 }
