@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/posts")
+@RequestMapping()
 @Tag(name = "CRUD APIs for Post Resource")
 public class PostController {
     PostService postService;
@@ -43,7 +43,7 @@ public class PostController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping
+    @PostMapping("/api/v1/posts")
     public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto) {
         return new ResponseEntity<>(postService.createPost(postDto), HttpStatus.CREATED);
     }
@@ -60,7 +60,7 @@ public class PostController {
             responseCode = "200",
             description = "Http 200 OK "
     )
-    @GetMapping
+    @GetMapping("/api/v1/posts")
     public ResponseEntity<PostResponse> getAllPosts(
             @RequestParam(value = "pageNo", defaultValue = ApplicationConstants.DEFAULT_PAGE_NUMBER, required = false) int pageNo,
             @RequestParam(value = "pageSize", defaultValue = ApplicationConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
@@ -83,7 +83,7 @@ public class PostController {
             responseCode = "200",
             description = "Http Status 200 OK"
     )
-    @GetMapping("/{id}")
+    @GetMapping("/api/v1/posts/{id}")
     public ResponseEntity<PostDto> getPostById(@PathVariable("id") long id) {
         return ResponseEntity.ok(postService.getPostById(id));
     }
@@ -106,7 +106,7 @@ public class PostController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/{id}")
+    @PutMapping("/api/v1/posts/{id}")
     public ResponseEntity<PostDto> updatePostById(@PathVariable long id,
                                                   @Valid @RequestBody PostDto postDto) {
         return ResponseEntity.ok(postService.updatePostById(id, postDto));
@@ -124,7 +124,7 @@ public class PostController {
             name = "Bearer Authentication"
     )
     @PreAuthorize("haRole('ADMIN'")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/api/v1/posts/{id}")
     public ResponseEntity<String> deletePostById(@PathVariable long id) {
         postService.deletePostById(id);
         return ResponseEntity.ok("Post is Deleted Successfully");
@@ -138,7 +138,7 @@ public class PostController {
             responseCode = "200",
             description = "Http Status 200 OK"
     )
-    @GetMapping("/category/{categoryId}")
+    @GetMapping("/api/v1/posts/category/{categoryId}")
     public ResponseEntity<List<PostDto>> getPostByCategoryIf(@PathVariable long categoryId) {
         return ResponseEntity.ok(postService.getPostsByCategory(categoryId));
     }
